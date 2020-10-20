@@ -16,7 +16,6 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 // read in data
 var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
 
-var geojson;
 
 d3.json(link, function(data) {
     console.log(data)
@@ -24,6 +23,8 @@ d3.json(link, function(data) {
     //create a choropleth layer
     geojson = L.choropleth(data, {
 
+        // Define what property in the features to use
+        valueProperty: "properties"
     })
 
     for (var i = 0; i < response.length; i++) {
