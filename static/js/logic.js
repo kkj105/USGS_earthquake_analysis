@@ -1,6 +1,6 @@
 var myMap = L.map("map", {
     center: [35.37, -119.02],
-    zoom: 7
+    zoom: 3
 });
 
 // Adding the tile layer
@@ -16,9 +16,11 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 // read in data
 var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
 
+// Grab the data with d3
 d3.json(link, function(response) {
     console.log(response)
 
+    // Conditionals for the depth of the quake
     function fillColor(feature) {
         var quakeDepth = feature.geometry.coordinates[2]
         switch (true) {
@@ -31,18 +33,13 @@ d3.json(link, function(response) {
         };
     }
 
-    // function radius(feature) {
-    //     var quakeRadius = feature.properties.mag
-    //     switch (true) {
-    //         case quakeRadius 
-    //     }
-    //}
-
     L.geoJSON(link, {
         style: function(feature) {
             return {
-                 opacity: 1,
-                fillColor: fillColor(feature)
+                opacity: 1,
+                fillColor: fillColor(feature),
+                radius: feature.properties.mag * 1500,
+                fillOpacity: 0.75
             }
 
         }
