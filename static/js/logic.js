@@ -1,5 +1,5 @@
 var myMap = L.map("map", {
-    center: [35.37, -119.02],
+    center: [38.2682, 140.8694],
     zoom: 3
 });
 
@@ -14,54 +14,68 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 }).addTo(myMap);
 
 // read in data
-var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
+var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+
 
 // Grab the data with d3
 d3.json(link, function(response) {
     console.log(response)
 
     // Conditionals for the depth of the quake
-    function fillColor(feature) {
-        var quakeDepth = feature.geometry.coordinates[2]
+    function setColor(feature) {
+        
         switch (true) {
-            case quakeDepth <= 10: return "#008000";
-            case quakeDepth <=30: return "#00F00";
-            case quakeDepth <=50 : return "#FFFF00";
-            case quakeDepth <=70: return "#FFB347";
-            case quakeDepth <90: return "#CC5500";
-            case quakeDepth >=90: return "#FF0000" 
+            case feature >= 90: return "#008000";
+            case feature >=70: return "#00F00";
+            case feature >= 50 : return "#FFFF00";
+            case feature >= 30: return "#FFB347";
+            case feature >= 10: return "#CC5500";
+            default: return "#FF0000" 
         };
     }
+    function getRadius(feature) {
+        return feature * 5
+    }
 
-    L.geoJSON(link, {
+    // Add circles to map
+    L.geoJson(response, {
+        pointToLayer: function(feature, coordinates) {
+            return L.circleMarker(coordinates)
+        },
         style: function(feature) {
             return {
                 opacity: 1,
-                fillColor: fillColor(feature),
-                radius: feature.properties.mag * 1500,
+                color: "white",
+                fillColor: setColor(feature.geometry.coordinates[2]),
+                radius: getRadius(feature.properties.mag),
                 fillOpacity: 0.75
             }
-
+        },
+        onEachFeature: function(feature, layer) {
+            layer.bindPopup("<h1>Magnitude: " + feature.properties.mag + "</h1> <hr> <h3>Location: " + feature.properties.place + "</h3>")
         }
-    })
-})
+    }).addTo(myMap)
 
-
-    // // Set up legend
-    // var legend = L.control({ position: "topright"});
-    // legend.onAdd = function() {
-    //     var div = L.DomUtil.create("div", "info legend");
-    //     var limits = geojson.options.limits;
-    //     var colors = geojson.options.colors;
-    //     var labels = [];
+    // Set up legend
+    var legend = L.control({ position: "bottomright"});
+    legend.onAdd = function() {
+        var div = L.DomUtil.create("div", "info legend");
+        var limits = geojson.options.limits;
+        var colors = geojson.options.colors;
+        var labels = [];
         
-    //     limits.forEach(function(limit, index) {
-    //         labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
-    //     });
+        limits.forEach(function(limit, index) {
+            labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
+        });
 
-    //     div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-    //     return div;
-    // };
+        div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+        return div;
+    };
 
-    // // Add legend to map
-    // legend.addTo(myMap);
+    // Add legend to map
+    legend.addTo(myMap);
+
+});
+
+
+    
