@@ -1,5 +1,5 @@
 var myMap = L.map("map", {
-    center: [38.2682, 140.8694],
+    center: [27.876714,-52.285434],
     zoom: 3
 });
 
@@ -76,7 +76,21 @@ d3.json(link, function(response) {
     // };
     
     // Create legend
-    
+    var legend = L.control({ position: "bottomright" });
+    legend.onAdd = function (map) {
+        var div = L.DomUtil.create("div", "info legend");
+        var depths = ["-10-10", "10-30", "30-50", "50-70", "70-90"," 90+"];
+        var labels = [];
+
+        // Populate the legend
+        for (var i = 0; i ,depths.length; i++) {
+            div.innerHTML +=
+            '<i style="background:' + getColor(depths[i] + 1) + '"></i> ' +
+            depths[i] + (grades[i + 1] ? '&ndash;' + depths[i + 1] + '<br>' : '+');
+        }
+        return div;
+    };
+
     
 
     // Add legend to map
