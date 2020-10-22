@@ -56,21 +56,28 @@ d3.json(link, function(response) {
         }
     }).addTo(myMap)
 
-    // Set up legend
-    var legend = L.control({ position: "bottomright"});
-    legend.onAdd = function() {
-        var div = L.DomUtil.create("div", "info legend");
-        var limits = geojson.options.limits;
-        var colors = geojson.options.colors;
-        var labels = [];
-        
-        limits.forEach(function(limit, index) {
-            labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
-        });
+    // // Set up legend
+    // var legend = L.control({ position: "bottomright"});
+    // legend.onAdd = function() {
+    //     var div = L.DomUtil.create("div", "info legend");
+    //     var limits = geojson.options.limits;
+    //     var colors = geojson.options.colors;
+    //     var labels = [];
+    //     //Populate the legend
+    //     var legendInfo = "<h1>-10-10</h1>" + 
+    //         "div class=\"labels\">" +
+    //         "div class=\""
+    //     limits.forEach(function(limit, index) {
+    //         labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
+    //     });
 
-        div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-        return div;
-    };
+    //     div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+    //     return div;
+    // };
+    
+    // Create legend
+    
+    
 
     // Add legend to map
     legend.addTo(myMap);
