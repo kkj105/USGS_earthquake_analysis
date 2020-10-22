@@ -26,11 +26,11 @@ d3.json(link, function(response) {
         
         switch (true) {
             case feature >= 90: return "#008000";
-            case feature >=70: return "#00F00";
-            case feature >= 50 : return "#FFFF00";
-            case feature >= 30: return "#FFB347";
-            case feature >= 10: return "#CC5500";
-            default: return "#FF0000" 
+            case feature >=70: return "#FF4500";
+            case feature >= 50 : return "#FFA500";
+            case feature >= 30: return "#ffff00";
+            case feature >= 10: return "#b4cd32";
+            default: return "#73cd32" 
         };
     }
     function getRadius(feature) {
