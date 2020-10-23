@@ -52,49 +52,31 @@ d3.json(link, function(response) {
             }
         },
         onEachFeature: function(feature, layer) {
-            layer.bindPopup("<h1>Magnitude: " + feature.properties.mag + "</h1> <hr> <h3>Location: " + feature.properties.place + "</h3>")
+            layer.bindPopup("<h1>Magnitude: " + feature.properties.mag + "</h1> <hr> <h3>Location: " + feature.properties.place + "</h3>" + "<h3>Quake Depth: " + feature.geometry.coordinates[2] + "</h3>")
         }
     }).addTo(myMap)
-
-    // // Set up legend
-    // var legend = L.control({ position: "bottomright"});
-    // legend.onAdd = function() {
-    //     var div = L.DomUtil.create("div", "info legend");
-    //     var limits = geojson.options.limits;
-    //     var colors = geojson.options.colors;
-    //     var labels = [];
-    //     //Populate the legend
-    //     var legendInfo = "<h1>-10-10</h1>" + 
-    //         "div class=\"labels\">" +
-    //         "div class=\""
-    //     limits.forEach(function(limit, index) {
-    //         labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
-    //     });
-
-    //     div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-    //     return div;
-    // };
     
     // Create legend
     var legend = L.control({ position: "bottomright" });
-    legend.onAdd = function (map) {
+    legend.onAdd = function (feature) {
+        console.log("legendFunction")
         var div = L.DomUtil.create("div", "info legend");
         var depths = ["-10-10", "10-30", "30-50", "50-70", "70-90"," 90+"];
-        var labels = [];
-
-        function getColor(depths) {
-            return depths >= 90 ? "#008000":
-                depths >=70 ? "#FF4500":
-                depths >= 50 ? "#FFA500":
-                depths >= 30 ? "#ffff00":
-                depths >= 10 ? "#b4cd32":
-                             "#73cd32";
-        }
+        var color = ["#008000", "#73cd32", "#b4cd32", "#ffff00", "#FFA500", "#FF4500"];
+        // div.innerHTML = "hello"
+        // function getColor(depths) {
+        //     return depths >= 90 ? "#008000":
+        //         depths >=70 ? "#FF4500":
+        //         depths >= 50 ? "#FFA500":
+        //         depths >= 30 ? "#ffff00":
+        //         depths >= 10 ? "#b4cd32":
+        //                      "#73cd32";
+        // }
         // Populate the legend
-        for (var i = 0; i ,depths.length; i++) {
+        for (var i = 0; i < depths.length; i++) {
             div.innerHTML +=
-            '<i style="background:' + getColor(depths[i] + 1) + '"></i> ' +
-            depths[i] + (grades[i + 1] ? '&ndash;' + depths[i + 1] + '<br>' : '+');
+            '<i style="background:' + color[i] + '"></i> ' +
+            depths[i] + '<br>';
         }
         return div;
     };
