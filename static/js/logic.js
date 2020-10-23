@@ -64,14 +64,7 @@ d3.json(link, function(response) {
         var depths = ["-10-10", "10-30", "30-50", "50-70", "70-90", "90+"];
         var color = ["#008000", "#73cd32", "#b4cd32", "#ffff00", "#FFA500", "#FF4500"];
         // div.innerHTML = "hello"
-        // function getColor(depths) {
-        //     return depths >= 90 ? "#008000":
-        //         depths >=70 ? "#FF4500":
-        //         depths >= 50 ? "#FFA500":
-        //         depths >= 30 ? "#ffff00":
-        //         depths >= 10 ? "#b4cd32":
-        //                      "#73cd32";
-        // }
+        
         // Populate the legend
         for (var i = 0; i < depths.length; i++) {
             div.innerHTML +=
