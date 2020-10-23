@@ -61,7 +61,7 @@ d3.json(link, function(response) {
     legend.onAdd = function (feature) {
         console.log("legendFunction")
         var div = L.DomUtil.create("div", "info legend");
-        var depths = ["-10-10", "10-30", "30-50", "50-70", "70-90"," 90+"];
+        var depths = ["-10-10", "10-30", "30-50", "50-70", "70-90", "90+"];
         var color = ["#008000", "#73cd32", "#b4cd32", "#ffff00", "#FFA500", "#FF4500"];
         // div.innerHTML = "hello"
         // function getColor(depths) {
